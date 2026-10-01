@@ -6,10 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "measure:js": "bash scripts/measure-js.sh ar en",
+    "placeholders": "node scripts/generate-placeholders.mjs"
   },
   "dependencies": {
+    "motion": "^13.4.5",
     "next": "16.3.7",
+    "next-intl": "^4.14.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },

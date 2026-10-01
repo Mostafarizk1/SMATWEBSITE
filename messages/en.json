@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "siteName": "SMAT Studio",
+    "title": "SMAT Studio | Digital marketing studio for real estate developers & brands",
+    "description": "A full-service digital marketing studio across Saudi Arabia, UAE, Oman and Jordan: strategy, paid ads, branding, real estate film & 3D visualization, websites and SEO.",
+    "pages": {
+      "services": {
+        "title": "Services",
+        "description": "Everything your brand needs under one roof, from strategy to content to paid media and results."
+      },
+      "work": {
+        "title": "Work",
+        "description": "Selected projects for real estate developers and brands across the Gulf and Jordan."
+      },
+      "realEstate": {
+        "title": "Real Estate Marketing",
+        "description": "Real estate films, 3D visualization, Gaussian Splatting fly-throughs and launch campaigns for developers."
+      },
+      "about": {
+        "title": "About",
+        "description": "SMAT Studio: Strategy, Marketing, Advertising, Technology. One team that thinks, creates and grows."
+      },
+      "contact": {
+        "title": "Request a Quote",
+        "description": "Tell us about your project and our team will get back to you within one business day."
+      }
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "work": "Work",
+    "realEstate": "Real Estate",
+    "about": "About",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close",
+    "switchLocale": "ع",
+    "switchLocaleLabel": "التبديل إلى العربية",
+    "skipToContent": "Skip to content",
+    "primary": "Main navigation",
+    "home_label": "SMAT Studio, home"
+  },
+  "common": {
+    "requestQuote": "Request a Quote",
+    "seeWork": "See Our Work",
+    "whatsapp": "Chat on WhatsApp",
+    "whatsappShort": "WhatsApp",
+    "whatsappMessage": "Hi SMAT Studio, I'd like to ask about your services.",
+    "viewAll": "View all",
+    "placeholder": "Placeholder"
+  },
+  "intro": {
+    "skip": "Skip intro"
+  },
+  "hero": {
+    "srTitle": "SMAT Studio: ",
+    "words": {
+      "think": "Think",
+      "create": "Create",
+      "grow": "Grow"
+    },
+    "subheadline": "A full-service digital marketing studio for real estate developers and brands across the Gulf and Jordan, from strategy to content to results.",
+    "scroll": "Scroll",
+    "posterAlt": "Residential towers lit at night, placeholder for the studio showreel"
+  },
+  "clients": {
+    "label": "Trusted by"
+  },
+  "method": {
+    "eyebrow": "Our method",
+    "title": "Think. Then create. Then grow.",
+    "intro": "Every project moves through three clear stages. No design before strategy, no ads before content worth promoting.",
+    "smatNote": "SMAT stands for Strategy · Marketing · Advertising · Technology",
+    "smatLetters": {
+      "s": "Strategy",
+      "m": "Marketing",
+      "a": "Advertising",
+      "t": "Technology"
+    },
+    "tablistLabel": "Stages of our method",
+    "pillars": {
+      "think": {
+        "name": "Think",
+        "latin": "نفكّر",
+        "tagline": "We start by understanding the market, the audience and the goal."
+      },
+      "create": {
+        "name": "Create",
+        "latin": "نصنع",
+        "tagline": "We turn the idea into identity and content people see and remember."
+      },
+      "grow": {
+        "name": "Grow",
+        "latin": "نطوّر",
+        "tagline": "We put it in front of the right people and measure every result."
+      }
+    },
+    "cta": "Discuss your project"
+  },
+  "realEstate": {
+    "eyebrow": "Our strongest edge",
+    "title": "Sold before it's built.",
+    "body": "We help developers make buyers see their future home before the first column is poured: cinematic films, 3D visualization and immersive fly-throughs, launched with campaigns built to sell.",
+    "features": {
+      "film": {
+        "title": "Real estate films",
+        "body": "Aerial and cinematic footage with a story that sells the place."
+      },
+      "viz": {
+        "title": "3D visualization",
+        "body": "Photoreal exteriors and interiors, before construction starts."
+      },
+      "splat": {
+        "title": "Gaussian Splatting",
+        "body": "Lifelike fly-throughs inside and around the project."
+      },
+      "launch": {
+        "title": "Launch campaigns",
+        "body": "From landing page to paid ads to lead follow-up."
+      }
+    },
+    "cta": "Explore real estate marketing",
+    "mediaAlt": "3D visualization of a residential tower, placeholder",
+    "reelBadge": "Real estate reel · coming soon"
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Work that speaks in results.",
+    "filterLabel": "Filter by category",
+    "all": "All",
+    "categories": {
+      "real-estate": "Real estate",
+      "branding": "Branding",
+      "campaigns": "Campaigns",
+      "video": "Video & 3D"
+    },
+    "viewAll": "All work",
+    "empty": "No projects in this category yet."
+  },
+  "numbers": {
+    "eyebrow": "By the numbers",
+    "title": "Experience you can measure.",
+    "items": {
+      "projects": "Projects delivered",
+      "clients": "Clients",
+      "countries": "Countries",
+      "years": "Years of experience"
+    }
+  },
+  "markets": {
+    "eyebrow": "Where we work",
+    "title": "From Riyadh to Amman.",
+    "body": "A team that knows each local market: the dialect, the audience and the platforms that make the difference.",
+    "mapLabel": "Simplified map connecting the four countries we work in"
+  },
+  "finalCta": {
+    "title": "Ready to start your next project?",
+    "body": "Tell us your goal and we'll come back with a clear plan and a quote within one business day."
+  },
+  "footer": {
+    "description": "A full-service digital marketing studio for real estate developers and brands in Saudi Arabia, UAE, Oman and Jordan.",
+    "explore": "Explore",
+    "contact": "Contact",
+    "follow": "Follow",
+    "rights": "All rights reserved.",
+    "language": "العربية"
+  },
+  "pages": {
+    "services": {
+      "eyebrow": "Services",
+      "title": "Everything your brand needs, under one roof.",
+      "intro": "Three stages and thirteen services, run by one team that knows your goal from day one."
+    },
+    "work": {
+      "eyebrow": "Work",
+      "title": "Selected work.",
+      "intro": "Full case studies with results are coming soon. Here's a first look."
+    },
+    "realEstate": {
+      "eyebrow": "Real estate",
+      "title": "Sold before it's built.",
+      "intro": "From concept to off-plan sales: visual content and campaigns built specifically for real estate developers in the Gulf and Jordan."
+    },
+    "about": {
+      "eyebrow": "About",
+      "title": "One studio. Four disciplines.",
+      "intro": "SMAT brings Strategy, Marketing, Advertising and Technology into one team, so we work as a true extension of yours, not an outside vendor."
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Let's talk.",
+      "intro": "Fill in the form and we'll get back to you within one business day, or message us directly on WhatsApp."
+    },
+    "ctaTitle": "Have a project in mind?",
+    "notFound": {
+      "title": "Page not found",
+      "body": "The page may have moved, or the link is incorrect.",
+      "back": "Back to home"
+    }
+  },
+  "form": {
+    "title": "Request a quote form",
+    "name": "Name",
+    "company": "Company",
+    "country": "Country",
+    "service": "Service needed",
+    "message": "Tell us about your project",
+    "optional": "optional",
+    "select": "Select…",
+    "countries": {
+      "sa": "Saudi Arabia",
+      "ae": "UAE",
+      "om": "Oman",
+      "jo": "Jordan",
+      "other": "Other"
+    },
+    "otherService": "Other / multiple services",
+    "submit": "Send request",
+    "sending": "Sending…",
+    "errors": {
+      "name": "Please enter your name (at least 2 characters).",
+      "country": "Please choose a country.",
+      "service": "Please choose a service.",
+      "message": "Please add a short brief (at least 20 characters)."
+    },
+    "successTitle": "Got it, thank you!",
+    "successBody": "Our team will get back to you within one business day.",
+    "again": "Send another request",
+    "privacy": "We never share your details with third parties."
+  },
+  "dev": {
+    "theme": "Palette"
+  }
+}

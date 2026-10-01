@@ -1,26 +1,536 @@
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────
+   Design tokens. Swap the real brand palette in here, nowhere else.
+   Contrast verified with scripts/contrast.mjs (all pairs ≥ WCAG AA).
+   ────────────────────────────────────────────────────────────── */
+:root,
+[data-theme="night"] {
+  --bg: #0a0a0f;
+  --surface: #15151d;
+  --line: #26262f;
+  --text: #f4f2ed;
+  --muted: #9a98a3;
+  --accent: #d4ff3a;
+  --accent-2: #7b61ff;
+  --on-accent: #0a0a0f; /* text on accent buttons */
+  --accent-ink: #d4ff3a; /* accent used as text on dark bg */
+}
+
+[data-theme="desert"] {
+  --bg: #0f0e0c;
+  --surface: #1a1815;
+  --line: #2b2823;
+  --text: #f3ede3;
+  --muted: #a39a8c;
+  --accent: #c8a15a;
+  --accent-2: #e8d9bd;
+  --on-accent: #0f0e0c;
+  --accent-ink: #c8a15a;
+}
+
+[data-theme="electric"] {
+  --bg: #07080d;
+  --surface: #11131c;
+  --line: #1f2230;
+  --text: #eef1f7;
+  --muted: #8e94a6;
+  --accent: #3d5afe;
+  --accent-2: #ff6a3d;
+  --on-accent: #ffffff; /* dark text on #3D5AFE is only 3.9:1 */
+  --accent-ink: #8196ff; /* #3D5AFE as text on bg is 3.5:1, this is 7.4:1 */
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --header-h: 4.5rem;
+  /* Mirrors horizontal motion in RTL (lib/motion.ts is the JS equivalent). */
+  --dir: 1;
+  /* Extra delay for hero animations while the logo intro plays. */
+  --intro-offset: 0s;
+}
+
+[dir="rtl"] {
+  --dir: -1;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-fg: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-accent: var(--on-accent);
+  --color-accent-ink: var(--accent-ink);
+
+  --font-display: var(--font-alexandria), var(--font-body-fallback);
+  --font-body: var(--font-body-active), var(--font-body-fallback);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ─────────────────────────────────────────────────────── */
+html {
+  --font-body-fallback: system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: var(--header-h);
+}
+
+html:lang(ar) {
+  --font-body-active: var(--font-plex-arabic);
+}
+html:lang(en) {
+  --font-body-active: var(--font-inter);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+html:lang(ar) body {
+  line-height: 1.85;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ── Typography ───────────────────────────────────────────────── */
+/* Latin display type tightens; Arabic never gets letter-spacing (it breaks joining). */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+:lang(ar) .display,
+.display:lang(ar) {
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 5.2vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+:lang(ar) .h2 {
+  font-size: clamp(1.875rem, 4.6vw, 3.5rem);
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-ink);
+}
+.eyebrow::before {
+  content: "";
+  width: 1.5rem;
+  height: 1px;
+  background: currentColor;
+}
+:lang(ar) .eyebrow {
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* ── Layout helpers ───────────────────────────────────────────── */
+.container-x {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-x {
+    padding-inline: 2.5rem;
+  }
+}
+
+.section {
+  padding-block: clamp(5rem, 12vw, 9rem);
+}
+
+/* Cheap film grain: one tiny static SVG, never animated. */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.25rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 0.35s var(--ease-out),
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active {
+  transform: scale(0.97);
+}
+.btn-primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+.btn-primary:hover {
+  background: color-mix(in oklab, var(--accent) 86%, white);
+}
+.btn-ghost {
+  border: 1px solid color-mix(in oklab, var(--text) 28%, transparent);
+  color: var(--text);
+}
+.btn-ghost:hover {
+  border-color: var(--text);
+  background: color-mix(in oklab, var(--text) 6%, transparent);
+}
+.btn-arrow {
+  transform: scaleX(var(--dir));
+  transition: transform 0.35s var(--ease-out);
+}
+.btn:hover .btn-arrow {
+  transform: translateX(calc(4px * var(--dir))) scaleX(var(--dir));
+}
+
+/* ── Header: background fades in on scroll (CSS scroll timeline, zero JS) ── */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: color-mix(in oklab, var(--bg) 90%, transparent);
+  border-bottom: 1px solid var(--line);
+  opacity: 1;
+}
+@supports (animation-timeline: scroll()) {
+  .site-header::before {
+    opacity: 0;
+    animation: header-bg linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 140px;
+  }
+}
+@keyframes header-bg {
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Hero word motifs (CSS only, the h1 is painted at first frame) ── */
+.hero-word {
+  display: block;
+  animation: word-in 1s var(--ease-out) both;
+  animation-delay: calc(var(--intro-offset) + var(--d, 0s));
+}
+@keyframes word-in {
+  from {
+    transform: translateY(0.22em);
+  }
+}
+
+.motif * {
+  transform-box: fill-box;
+}
+.motif > * {
+  animation-delay: calc(var(--intro-offset) + var(--d, 0s));
+  animation-fill-mode: both;
+}
+
+/* Think: thin grid lines draw in */
+.motif-line-h {
+  transform-origin: calc(50% - 50% * var(--dir)) 50%;
+  animation-name: draw-x;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--ease-out);
+}
+.motif-line-v {
+  transform-origin: 50% 0;
+  animation-name: draw-y;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--ease-out);
+}
+@keyframes draw-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes draw-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+/* Create: shapes and colour build up */
+.motif-shape {
+  animation-name: shape-in;
+  animation-duration: 0.8s;
+  animation-timing-function: var(--ease-out);
+}
+@keyframes shape-in {
+  from {
+    opacity: 0;
+    transform: scale(0.2) rotate(-60deg);
+  }
+}
+
+/* Grow: bars rise, arrow climbs */
+.motif-bar {
+  transform-origin: 50% 100%;
+  animation-name: rise;
+  animation-duration: 0.9s;
+  animation-timing-function: var(--ease-out);
+}
+@keyframes rise {
+  from {
+    transform: scaleY(0);
+  }
+}
+.motif-arrow {
+  animation-name: climb;
+  animation-duration: 1s;
+  animation-timing-function: var(--ease-out);
+}
+@keyframes climb {
+  from {
+    opacity: 0;
+    transform: translateY(70%);
+  }
+}
+
+.fade-up {
+  animation: fade-up 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--intro-offset) + var(--d, 0s));
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+.scroll-cue {
+  animation: cue 2.2s var(--ease-in-out) infinite;
+}
+@keyframes cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+/* ── Logo intro (first visit per session, see components/intro) ── */
+.intro {
+  display: none;
+}
+html[data-intro="play"] {
+  --intro-offset: 1.7s;
+}
+html[data-intro="play"] .intro {
+  display: grid;
+  /* Safety net: if JS never takes over, the overlay removes itself. */
+  animation: intro-auto-hide 0.5s ease 3.4s forwards;
+}
+html[data-intro="play"] [data-logo-target] {
+  opacity: 0;
+  animation: logo-target-in 0.3s ease 3.4s forwards;
+}
+@keyframes intro-auto-hide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes logo-target-in {
+  to {
+    opacity: 1;
+  }
+}
+.intro-letter {
+  display: inline-block;
+  animation: letter-in 0.7s var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+@keyframes letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) scale(0.9);
+  }
+}
+
+/* ── Clients marquee: pure CSS, pauses on hover, reverses in RTL ── */
+.marquee {
+  --gap: clamp(3rem, 7vw, 6rem);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: var(--gap);
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+.marquee-group {
+  display: flex;
+  gap: var(--gap);
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(calc((-50% - var(--gap) / 2) * var(--dir)));
+  }
+}
+
+/* ── Work cards ───────────────────────────────────────────────── */
+.work-media img {
+  transition: transform 0.9s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .work-card:hover .work-media img {
+    transform: scale(1.05);
+  }
+}
+
+/* ── Keyed-remount entrances (Method tabs, Work filter) ───────── */
+.panel-in {
+  animation: panel-in 0.45s var(--ease-out) both;
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(24px * var(--dir)));
+  }
+}
+.item-in {
+  animation: fade-up 0.5s var(--ease-out) both;
+  animation-delay: var(--d, 0s);
+}
+
+/* ── Scroll-linked media (components/home/ScrollMedia) ────────── */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-media {
+      animation: media-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    .scroll-media-inner {
+      animation: media-drift linear both;
+      animation-timeline: view();
+    }
+  }
+}
+@keyframes media-grow {
+  from {
+    transform: scale(0.86);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes media-drift {
+  from {
+    transform: translateY(-8%);
+  }
+  to {
+    transform: translateY(8%);
+  }
+}
+
+/* ── Scroll reveals (components/motion/Reveal + RevealObserver) ──
+   Hidden only when JS is running (html.js, set in <head>), so no-JS visitors see everything. */
+[data-reveal] {
+  transition:
+    opacity 0.8s var(--ease-out) var(--rd, 0s),
+    transform 0.8s var(--ease-out) var(--rd, 0s);
+}
+html.js [data-reveal]:not([data-shown]) {
+  opacity: 0;
+  transform: translate3d(calc(var(--rx, 0px) * var(--dir)), var(--ry, 28px), 0);
+}
+
+/* ── Reduced motion: everything becomes a simple fade or static ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+  .site-header::before {
+    animation: none !important;
+    opacity: 1;
+  }
+  html.js [data-reveal]:not([data-shown]) {
+    transform: none;
+  }
+  [data-reveal] {
+    transition: opacity 0.6s ease !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
