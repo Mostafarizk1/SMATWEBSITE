@@ -4,8 +4,7 @@
    Design tokens. Swap the real brand palette in here, nowhere else.
    Contrast verified with scripts/contrast.mjs (all pairs ≥ WCAG AA).
    ────────────────────────────────────────────────────────────── */
-:root,
-[data-theme="night"] {
+html[data-theme="night"] {
   --bg: #0a0a0f;
   --surface: #15151d;
   --line: #26262f;
@@ -17,7 +16,7 @@
   --accent-ink: #d4ff3a; /* accent used as text on dark bg */
 }
 
-[data-theme="desert"] {
+html[data-theme="desert"] {
   --bg: #0f0e0c;
   --surface: #1a1815;
   --line: #2b2823;
@@ -29,6 +28,8 @@
   --accent-ink: #c8a15a;
 }
 
+/* Electric is the adopted palette (decided 2026-09-29), so it is also the :root default. */
+:root,
 [data-theme="electric"] {
   --bg: #07080d;
   --surface: #11131c;
@@ -533,4 +534,384 @@ html.js [data-reveal]:not([data-shown]) {
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* ── Scroll hero (components/home/Hero + ScrollScenes) ───────────
+   A tall section with a sticky full-screen stage. ScrollScenes writes --t/--a per scene and
+   --p/--mx/--my on the stage; everything below is transform/opacity driven by those variables.
+   Section height = how long the hero holds the screen (more = slower scenes). */
+.hero-scroll {
+  height: 400svh;
+}
+@media (min-width: 1024px) {
+  .hero-scroll {
+    height: 460svh;
+  }
+}
+.hero-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100svh;
+  padding-top: var(--header-h);
+  overflow: hidden;
+}
+.scene {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  pointer-events: none;
+}
+/* Fully visible while resting, fades out over the middle of the hand-over. */
+.scene-copy,
+.scene-art {
+  opacity: clamp(0, calc(1.7 - var(--a, 0) * 2.6), 1);
+}
+.scene-art {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0.75rem 6% 1.25rem;
+  scale: calc(1 - var(--a, 0) * 0.14);
+}
+.layer {
+  /* Depth parallax: deeper layers (--depth) travel further with scroll (--t) and pointer (--mx/--my). */
+  transform: translate3d(
+    calc(var(--mx, 0) * var(--depth, 1) * -10px),
+    calc(var(--tt, var(--t, 0)) * var(--depth, 1) * -15svh + var(--my, 0) * var(--depth, 1) * -7px),
+    0
+  );
+  will-change: transform;
+}
+.hero-bar {
+  grid-area: 2 / 1;
+  padding-block: 1.25rem 5.75rem; /* clears the floating WhatsApp button on phones */
+}
+.hero-progress {
+  height: 2px;
+  overflow: hidden;
+  background: var(--line);
+}
+.hero-progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transform-origin: calc(50% - 50% * var(--dir)) 50%;
+  transform: scaleX(calc(0.04 + var(--p, 0) * 0.96));
+}
+@media (min-width: 768px) {
+  .hero-bar {
+    padding-bottom: 2.5rem;
+  }
+  .scene-art {
+    margin-inline: 18%;
+  }
+}
+@media (min-width: 1024px) {
+  .scene {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    column-gap: 2rem;
+    align-items: end;
+  }
+  .scene-copy {
+    grid-area: 1 / 1;
+    padding-bottom: 1rem;
+  }
+  .scene-art {
+    grid-area: 1 / 2;
+    align-self: center;
+    flex: none;
+    height: min(62svh, 34rem);
+    margin: 0;
+  }
+}
+
+/* No JS, or reduced motion: scenes become three ordinary stacked blocks. */
+html:not(.js) .hero-scroll {
+  height: auto;
+}
+html:not(.js) .hero-stage {
+  position: relative;
+  display: block;
+  height: auto;
+}
+html:not(.js) .scene {
+  min-height: 70svh;
+}
+html:not(.js) .scene-copy,
+html:not(.js) .scene-art {
+  opacity: 1;
+}
+html:not(.js) .scene-art {
+  height: 40svh;
+  scale: 1;
+}
+html:not(.js) .layer {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll {
+    height: auto;
+  }
+  .hero-stage {
+    position: relative;
+    display: block;
+    height: auto;
+  }
+  .scene {
+    min-height: 70svh;
+  }
+  .scene-copy,
+  .scene-art {
+    opacity: 1;
+  }
+  .scene-art {
+    height: 40svh;
+    scale: 1;
+  }
+  .layer {
+    transform: none;
+  }
+}
+
+/* ── Hero scene 1 "Think": finding the direction ─────────────────
+   A canvas under study and four thinking layers (ThinkArt), in the same 3D language as Create.
+     --e  how far apart the layers are: 1 at the start, eases to a small rest value, never fully
+          closed, because this is still the idea and not the finished piece. */
+.think-stack {
+  --e: calc(0.14 + 0.86 * clamp(0, calc(1 - var(--s, 0) / 0.85), 1));
+  transform-style: preserve-3d;
+  transform: rotateX(calc(3deg + var(--e) * 9deg + var(--my, 0) * -3deg)) rotateY(calc(-5deg - var(--e) * 31deg + var(--mx, 0) * 5deg))
+    scale(calc(1 - var(--e) * 0.2));
+  will-change: transform;
+}
+.think-sheet {
+  transform: translateZ(calc(var(--e) * var(--z) * 13cqw));
+  will-change: transform;
+}
+.think-plane {
+  opacity: var(--e);
+}
+/* Options that get passed over. */
+.think-ignored {
+  opacity: clamp(0, calc(1 - var(--s, 0) * 1.7), 1);
+}
+/* The selection tightens onto what matters. */
+.think-select {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transform: scale(calc(1.28 - var(--s, 0) * 0.28));
+}
+/* The search line draws itself. The one place we animate something other than transform/opacity:
+   a single thin SVG stroke, repainted only while the visitor scrolls. */
+.think-path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: clamp(0, calc(1 - var(--s, 0) / 0.8), 1);
+}
+.think-arrow {
+  opacity: clamp(0, calc((var(--s, 0) - 0.78) / 0.1), 1);
+}
+/* The idea: an outline that starts to hold. */
+.think-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in oklab, var(--text) 80%, transparent);
+}
+.think-settle {
+  opacity: clamp(0, calc((var(--s, 0) - 0.66) / 0.3), 1);
+}
+/* Static fallbacks show each story in its finished state. */
+html:not(.js) .scene {
+  --s: 1 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene {
+    --s: 1 !important;
+  }
+}
+
+/* ── Hero scene 2 "Create": the Poster Monolith ───────────────────
+   Units inside the artwork are container units of the art box, so it scales on any screen. */
+.scene-art {
+  container-type: size;
+}
+/* Poster Monolith (CreateMonolithArt). The layers start apart and close calmly along Z.
+     --e  how far apart they still are: 1 at the start → 0 once locked. */
+.mono {
+  perspective: 150cqw;
+}
+.mono-stack {
+  --e: clamp(0, calc(1 - var(--s, 0) / 0.8), 1);
+  transform-style: preserve-3d;
+  /* Seen from the side while open; ends almost face-on but keeps a slight angle, like an object
+     standing in the room. The pointer tilts it a little (desktop). */
+  transform: rotateX(calc(3deg + var(--e) * 9deg + var(--my, 0) * -3deg)) rotateY(calc(-7deg - var(--e) * 31deg + var(--mx, 0) * 5deg))
+    scale(calc(1 - var(--e) * 0.2));
+  will-change: transform;
+}
+.mono-sheet {
+  transform: translateZ(calc(var(--e) * var(--z) * 16cqw));
+  will-change: transform;
+}
+/* Outlines and names of the layers: only while they are apart. */
+.mono-plane {
+  opacity: var(--e);
+}
+.mono-ghost {
+  transform: translateZ(calc(-7cqw - var(--e) * 34cqw)) translate(6cqw, -3cqw) rotateZ(5deg);
+}
+.mono-beam {
+  transform-origin: 50% 100%;
+  transform: scaleY(clamp(0, calc((var(--s, 0) - 0.55) / 0.35), 1));
+  opacity: calc(clamp(0, calc((var(--s, 0) - 0.55) / 0.2), 1) * (1 - clamp(0, calc(var(--out, 0) * 5), 1)));
+}
+.mono-pop {
+  --q: clamp(0, calc((var(--s, 0) - 0.84) / 0.14), 1);
+  transform: scale(calc(0.4 + var(--q) * 0.6));
+  opacity: calc(var(--q) * (1 - clamp(0, calc(var(--out, 0) * 5), 1)));
+}
+.mono-helper {
+  opacity: calc(1 - clamp(0, calc(var(--out, 0) * 5), 1));
+}
+
+/* ── Hero scene 3 "Grow": the Living System ──────────────────────
+   The Create poster, then versions of it unfolding onto an ordered 3D grid (GrowArt).
+     --m   camera: pulls back and turns to show the depth of the grid.
+     --q   a version's own arrival (starts at its --d0).
+     --q2  the strongest route asserts itself: what is on it grows, the weak versions fade. */
+.sys-stack {
+  --m: clamp(0, calc(var(--s, 0) / 0.6), 1);
+  transform-style: preserve-3d;
+  /* Starts at the angle Create ended on, so the poster carries straight over. */
+  transform: rotateX(calc(3deg + var(--m) * 7deg + var(--my, 0) * -3deg)) rotateY(calc(-7deg - var(--m) * 9deg + var(--mx, 0) * 5deg))
+    scale(calc(1 - var(--m) * 0.1));
+  will-change: transform;
+}
+/* The original: exactly Create's poster (same box, same angle), then it steps back into the system. */
+.sys-hero {
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--m) * 6cqw)) scale(calc(1 - clamp(0, calc(var(--s, 0) / 0.36), 1) * 0.535));
+  will-change: transform;
+}
+.sys-node {
+  --q: clamp(0, calc((var(--s, 0) - var(--d0, 0)) / 0.26), 1);
+  --q2: clamp(0, calc((var(--s, 0) - 0.5) / 0.24), 1);
+  --k: 1;
+  --o: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate3d(calc(var(--q) * var(--x) * 1cqw), calc(var(--q) * var(--y) * 1cqh), calc(var(--q) * var(--z) * 7cqw))
+    scale(calc((0.3 + var(--q) * 0.7) * var(--k)));
+  opacity: calc(var(--q) * var(--o));
+  will-change: transform, opacity;
+}
+.sys-strong {
+  --k: calc(1 + var(--q2) * 0.24);
+}
+.sys-weak {
+  --o: calc(1 - var(--q2) * 0.9);
+  --k: calc(1 - var(--q2) * 0.18);
+}
+.sys-lines {
+  opacity: clamp(0, calc((var(--s, 0) - 0.2) / 0.25), 1);
+}
+/* The orange route draws itself (thin SVG strokes, repainted only while scrolling). */
+.sys-route-a,
+.sys-route-b {
+  stroke-dasharray: 1;
+}
+.sys-route-a {
+  stroke-dashoffset: clamp(0, calc(1 - (var(--s, 0) - 0.48) / 0.2), 1);
+}
+.sys-route-b {
+  stroke-dashoffset: clamp(0, calc(1 - (var(--s, 0) - 0.66) / 0.14), 1);
+}
+.sys-route-c {
+  stroke-dasharray: 1;
+  stroke-dashoffset: clamp(0, calc(1 - (var(--s, 0) - 0.8) / 0.16), 1);
+}
+/* The layers open up beyond the poster and become the structure around the system. */
+.sys-arch {
+  --q3: clamp(0, calc((var(--s, 0) - 0.66) / 0.34), 1);
+  transform: translateZ(calc(var(--az, 0) * 1cqw)) scale(calc(0.5 + var(--q3) * 0.5));
+  opacity: calc(var(--q3) * 0.85);
+  will-change: transform, opacity;
+}
+
+/* ── Hero atmosphere: the backdrop changes with the story, and is never static ──
+   One layer per scene (ScrollScenes sets --a like on scenes); a slow push-in follows overall
+   progress (--p) and the pointer. Pure CSS gradients, no images. --ax/--ay: where the artwork sits. */
+.hero-stage {
+  --ax: 50%;
+  --ay: 32%;
+}
+@media (min-width: 1024px) {
+  .hero-stage {
+    --ax: calc(50% + 24% * var(--dir));
+    --ay: 46%;
+  }
+}
+.atmo {
+  position: absolute;
+  inset: -8%;
+  opacity: clamp(0, calc(1 - var(--a, 0) * 1.15), 1);
+  transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px), 0) scale(calc(1 + var(--p, 0) * 0.14));
+  will-change: transform, opacity;
+}
+/* Think: dark and quiet. A faint field of data, one soft light where the point is. */
+.atmo-think {
+  background:
+    radial-gradient(60% 60% at var(--ax) var(--ay), transparent 30%, var(--bg) 100%),
+    radial-gradient(26% 30% at var(--ax) var(--ay), color-mix(in oklab, var(--accent) 34%, transparent), transparent 70%),
+    radial-gradient(circle, color-mix(in oklab, var(--text) 16%, transparent) 1px, transparent 1.6px) 0 0 / 28px 28px;
+}
+/* Create: the studio lights come on. Colour floods in. */
+.atmo-create {
+  background:
+    linear-gradient(118deg, transparent 38%, color-mix(in oklab, var(--text) 7%, transparent) 50%, transparent 62%),
+    radial-gradient(42% 46% at var(--ax) calc(var(--ay) - 6%), color-mix(in oklab, var(--accent) 62%, transparent), transparent 72%),
+    radial-gradient(34% 38% at calc(var(--ax) + 16%) calc(var(--ay) + 26%), color-mix(in oklab, var(--accent-2) 42%, transparent), transparent 70%);
+}
+/* Grow: the space opens up. Reach rippling outward, a horizon ahead. */
+.atmo-grow {
+  background:
+    radial-gradient(70% 62% at var(--ax) var(--ay), color-mix(in oklab, var(--accent) 44%, transparent), transparent 76%),
+    radial-gradient(70% 36% at 50% 108%, color-mix(in oklab, var(--accent-2) 34%, transparent), transparent 70%);
+}
+.atmo-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--bg) 4%, color-mix(in oklab, var(--bg) 55%, transparent) 38%, transparent 70%);
+}
+
+/* The artwork is a physical composition: it must not mirror or re-anchor in RTL. */
+.scene-art {
+  direction: ltr;
+}
+
+/* Rings: a constant backdrop behind all three scenes, centred on the artwork. */
+.atmo-rings {
+  position: absolute;
+  inset: -8%;
+  background: repeating-radial-gradient(circle at var(--ax) var(--ay), transparent 0 54px, color-mix(in oklab, var(--text) 7%, transparent) 54px 55px);
+  mask-image: radial-gradient(75% 75% at var(--ax) var(--ay), #000 20%, transparent 100%);
+  transform: translate3d(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px), 0) scale(calc(1 + var(--p, 0) * 0.14));
+  will-change: transform;
+}
+
+/* Create → Grow is one continuous shot: the poster is the same object in both scenes, so the artwork
+   must not travel or cross-fade. Create's art holds still while it goes out and is swapped for Grow's
+   identical poster at the midpoint (invisible, since both are in the same place and pose). */
+.scene-art--hands-over {
+  --tt: calc(var(--in, 0) * -1);
+  scale: calc(1 - var(--in, 0) * 0.14);
+  opacity: min(clamp(0, calc(1.7 - var(--in, 0) * 2.6), 1), clamp(0, calc((0.5 - var(--out, 0)) * 200), 1));
+}
+.scene-art--takes-over {
+  --tt: 0;
+  scale: 1;
+  opacity: clamp(0, calc((0.5 - var(--in, 0)) * 200), 1);
 }

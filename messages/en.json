@@ -1,8 +1,8 @@
 {
   "meta": {
     "siteName": "SMAT Studio",
-    "title": "SMAT Studio | Digital marketing studio for real estate developers & brands",
-    "description": "A full-service digital marketing studio across Saudi Arabia, UAE, Oman and Jordan: strategy, paid ads, branding, real estate film & 3D visualization, websites and SEO.",
+    "title": "SMAT Studio | Full-service digital marketing agency: plan, create, manage",
+    "description": "A full-service digital marketing agency across Saudi Arabia, UAE, Oman and Jordan: marketing strategy and plans, design, video and content, websites and apps, and page and ad campaign management on every platform.",
     "pages": {
       "services": {
         "title": "Services",
@@ -10,7 +10,7 @@
       },
       "work": {
         "title": "Work",
-        "description": "Selected projects for real estate developers and brands across the Gulf and Jordan."
+        "description": "Selected projects for brands and companies across the Gulf and Jordan."
       },
       "realEstate": {
         "title": "Real Estate Marketing",
@@ -60,9 +60,13 @@
       "create": "Create",
       "grow": "Grow"
     },
-    "subheadline": "A full-service digital marketing studio for real estate developers and brands across the Gulf and Jordan, from strategy to content to results.",
+    "subheadline": "A full-service digital marketing agency: we set the plan, execute it in design, video, content and web, then manage your pages and campaigns and track the results.",
     "scroll": "Scroll",
-    "posterAlt": "Residential towers lit at night, placeholder for the studio showreel"
+    "lines": {
+      "think": "We start with the right question.",
+      "create": "We make what gets noticed, understood and remembered.",
+      "grow": "We measure the impact, then build on it."
+    }
   },
   "clients": {
     "label": "Trusted by"
@@ -159,7 +163,7 @@
     "body": "Tell us your goal and we'll come back with a clear plan and a quote within one business day."
   },
   "footer": {
-    "description": "A full-service digital marketing studio for real estate developers and brands in Saudi Arabia, UAE, Oman and Jordan.",
+    "description": "A full-service digital marketing agency: planning, execution and management for brands in Saudi Arabia, UAE, Oman and Jordan.",
     "explore": "Explore",
     "contact": "Contact",
     "follow": "Follow",
@@ -231,5 +235,37 @@
   },
   "dev": {
     "theme": "Palette"
+  },
+  "sectors": {
+    "eyebrow": "Sectors we serve",
+    "title": "One method. Many industries.",
+    "intro": "Our approach doesn't change: understand the market, execute, then manage and measure. What changes is the industry.",
+    "more": "Learn more",
+    "items": {
+      "realEstate": {
+        "name": "Real estate",
+        "line": "Launch campaigns, project films and 3D visualization."
+      },
+      "food": {
+        "name": "Restaurants & cafés",
+        "line": "Daily content, shoots and campaigns that fill tables."
+      },
+      "retail": {
+        "name": "Retail & e-commerce",
+        "line": "Sales ads, online stores and seasonal offer management."
+      },
+      "health": {
+        "name": "Health & beauty",
+        "line": "Trust building, bookings and content that explains and reassures."
+      },
+      "education": {
+        "name": "Education & training",
+        "line": "Enrollment campaigns and landing pages that turn interest into applications."
+      },
+      "corporate": {
+        "name": "Corporate & services",
+        "line": "Identity, website and a digital presence worthy of the name."
+      }
+    }
   }
 }

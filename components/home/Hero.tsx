@@ -1,87 +1,97 @@
-import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/components/ui/Link";
-import { site } from "@/content/site";
+import { pillars } from "@/content/services";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { LazyVideo } from "@/components/ui/LazyVideo";
 import { ArrowIcon } from "@/components/ui/Icons";
-import { CreateMotif, GrowMotif, ThinkMotif } from "./HeroMotifs";
+import { HeroArt } from "./HeroArt";
+import { ScrollScenes } from "./ScrollScenes";
 
 const d = (s: number) => ({ "--d": `${s}s` }) as React.CSSProperties;
 
 /**
- * Server component. The h1 and poster are in the HTML and painted on the first frame (LCP-safe):
- * the word animations are transform-only CSS, so the text is never invisible.
+ * Scroll-driven hero: a tall section with a sticky full-screen stage. As the visitor scrolls (natively,
+ * nothing is hijacked) the stage moves through three scenes: Think → Create → Grow. Each scene is a
+ * stack of layers that travel at different speeds (depth parallax).
+ *
+ * Server-rendered: scene 1 is in the HTML and painted on the first frame. <ScrollScenes>
+ * only writes CSS variables; all motion is transform/opacity in globals.css (`.hero-scroll`).
+ * Without JS or with reduced motion the scenes simply stack as normal sections.
  */
 export async function Hero() {
   const t = await getTranslations("hero");
   const tc = await getTranslations("common");
-  const { showreel } = site;
 
-  const words = [
-    { id: "think", delay: 0.05, Motif: ThinkMotif },
-    { id: "create", delay: 0.3, Motif: CreateMotif },
-    { id: "grow", delay: 0.55, Motif: GrowMotif },
-  ] as const;
+  const scenes = pillars.map((id, i) => ({
+    id,
+    index: String(i + 1).padStart(2, "0"),
+    word: t(`words.${id}`),
+    tagline: t(`lines.${id}`),
+  }));
 
   return (
-    <section className="grain relative isolate flex min-h-[100svh] flex-col overflow-hidden">
-      {/* Background: poster (LCP image, preloaded) + idle-loaded showreel + readability gradients. */}
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src={showreel.poster}
-          alt={t("posterAlt")}
-          fill
-          preload
-          quality={60}
-          sizes="100vw"
-          className="object-cover opacity-60"
-        />
-        {(showreel.webm || showreel.mp4) && (
-          <LazyVideo webm={showreel.webm} mp4={showreel.mp4} trigger="idle" className="absolute inset-0 size-full object-cover opacity-60" />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/70 to-bg/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_85%_20%,color-mix(in_oklab,var(--accent-2)_22%,transparent),transparent)] rtl:bg-[radial-gradient(60%_50%_at_15%_20%,color-mix(in_oklab,var(--accent-2)_22%,transparent),transparent)]" />
-      </div>
+    <section id="hero" data-index="0" className="hero-scroll relative" aria-labelledby="hero-title">
+      <h1 id="hero-title" className="sr-only">
+        {t("srTitle")}
+        {scenes.map((s) => `${s.word}.`).join(" ")}
+      </h1>
 
-      <div className="container-x flex flex-1 flex-col justify-end pb-14 pt-[calc(var(--header-h)+3rem)] md:pb-20">
-        <h1 className="display text-[clamp(3.6rem,15vw,11.5rem)] text-fg">
-          <span className="sr-only">{t("srTitle")}</span>
-          {words.map(({ id, delay, Motif }) => (
-            <span key={id} className="flex items-center gap-[0.22em]">
-              <span className="hero-word" style={d(delay)}>
-                {t(`words.${id}`)}
-                <span className="text-accent-ink">.</span>
-              </span>
-              <Motif base={delay} />
-            </span>
+      <div data-stage className="hero-stage grain isolate">
+        {/* Atmosphere: one backdrop per scene, cross-fading with the story (see `.atmo` in globals.css). */}
+        <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>
+          {scenes.map((scene, i) => (
+            <div key={scene.id} data-atmo className={`atmo atmo-${scene.id}`} style={{ "--a": i } as React.CSSProperties} />
           ))}
-        </h1>
+          {/* Rings: one constant backdrop behind all three scenes. */}
+          <div className="atmo-rings" />
+          <div className="atmo-shade" />
+        </div>
 
-        <div className="mt-10 grid items-end gap-8 md:mt-14 lg:grid-cols-[minmax(0,36rem)_auto] lg:justify-between">
-          <p className="lede fade-up max-w-xl text-fg/80" style={d(0.8)}>
-            {t("subheadline")}
-          </p>
-          <div className="fade-up flex flex-wrap gap-3" style={d(0.95)}>
-            <Magnetic>
-              <Link href="/contact" className="btn btn-primary">
-                {tc("requestQuote")}
-                <ArrowIcon className="btn-arrow" />
+        {scenes.map((scene, i) => (
+          <div key={scene.id} data-scene className="scene container-x" style={{ "--t": -i, "--a": i, "--s": 0 } as React.CSSProperties} aria-hidden>
+            <div className={"scene-art fade-up" + (scene.id === "create" ? " scene-art--hands-over" : scene.id === "grow" ? " scene-art--takes-over" : "")} style={d(0.25)}>
+              <HeroArt id={scene.id} glyph={scenes[0].word.charAt(0)} />
+            </div>
+            <div className="scene-copy">
+              <div className="layer" style={{ "--depth": 0.7 } as React.CSSProperties}>
+                <span className="font-display text-sm text-accent-ink">{scene.index} / 03</span>
+                <p className="display mt-2 text-[clamp(4.25rem,19vw,9rem)] lg:text-[clamp(6rem,11vw,11rem)] text-fg">
+                  <span className={i === 0 ? "hero-word" : "block"} style={d(0.05)}>
+                    {scene.word}
+                    <span className="text-accent-ink">.</span>
+                  </span>
+                </p>
+              </div>
+              <p className="layer mt-3 max-w-md text-base text-fg/85 md:mt-5 md:text-xl" style={{ "--depth": 1.1 } as React.CSSProperties}>
+                {scene.tagline}
+              </p>
+            </div>
+          </div>
+        ))}
+
+        <div className="hero-bar container-x">
+          <div className="hero-progress fade-up" style={d(0.7)} aria-hidden>
+            <span className="hero-progress-fill" />
+          </div>
+          <div className="mt-5 grid items-end gap-6 lg:grid-cols-[minmax(0,34rem)_auto] lg:justify-between">
+            <p className="fade-up text-fg/75 max-md:sr-only md:text-lg" style={d(0.8)}>
+              {t("subheadline")}
+            </p>
+            <div className="fade-up flex gap-3" style={d(0.9)}>
+              <Magnetic className="max-sm:min-w-0 max-sm:flex-1">
+                <Link href="/contact" className="btn btn-primary max-sm:w-full max-sm:px-3 max-sm:text-sm">
+                  {tc("requestQuote")}
+                  <ArrowIcon className="btn-arrow max-sm:hidden" />
+                </Link>
+              </Magnetic>
+              <Link href="/work" className="btn btn-ghost max-sm:min-w-0 max-sm:flex-1 max-sm:px-3 max-sm:text-sm">
+                {tc("seeWork")}
               </Link>
-            </Magnetic>
-            <Link href="/work" className="btn btn-ghost">
-              {tc("seeWork")}
-            </Link>
+            </div>
           </div>
         </div>
-
-        <div className="fade-up mt-12 hidden items-center gap-3 text-sm text-muted md:flex" style={d(1.2)} aria-hidden>
-          <span className="relative flex h-9 w-5 justify-center rounded-full border border-line pt-1.5">
-            <span className="scroll-cue block h-2 w-0.5 rounded-full bg-fg" />
-          </span>
-          {t("scroll")}
-        </div>
       </div>
+
+      <ScrollScenes targetId="hero" />
     </section>
   );
 }

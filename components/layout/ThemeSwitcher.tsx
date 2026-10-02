@@ -13,7 +13,7 @@ const subscribe = (cb: () => void) => {
   obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   return () => obs.disconnect();
 };
-const getTheme = () => document.documentElement.dataset.theme ?? "night";
+const getTheme = () => document.documentElement.dataset.theme ?? "electric";
 
 function applyTheme(id: string) {
   document.documentElement.setAttribute("data-theme", id);
@@ -27,7 +27,7 @@ function applyTheme(id: string) {
  * NEXT_PUBLIC_THEME_SWITCHER=1 (see layout), so production never downloads it.
  */
 export function ThemeSwitcher({ label }: { label: string }) {
-  const current = useSyncExternalStore(subscribe, getTheme, () => "night");
+  const current = useSyncExternalStore(subscribe, getTheme, () => "electric");
 
   return (
     <div

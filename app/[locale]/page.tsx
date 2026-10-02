@@ -3,7 +3,7 @@ import { LogoIntro } from "@/components/intro/LogoIntro";
 import { Hero } from "@/components/home/Hero";
 import { ClientsMarquee } from "@/components/home/ClientsMarquee";
 import { Method } from "@/components/home/Method";
-import { RealEstateSpotlight } from "@/components/home/RealEstateSpotlight";
+import { Sectors } from "@/components/home/Sectors";
 import { SelectedWork } from "@/components/home/SelectedWork";
 import { Numbers } from "@/components/home/Numbers";
 import { Markets } from "@/components/home/Markets";
@@ -20,7 +20,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <Hero />
       <ClientsMarquee />
       <Method />
-      <RealEstateSpotlight />
+      <Sectors />
       <SelectedWork />
       <Numbers />
       <Markets />
