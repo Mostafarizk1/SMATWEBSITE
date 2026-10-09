@@ -30,11 +30,6 @@ export async function Hero() {
 
   return (
     <section id="hero" data-index="0" className="hero-scroll relative" aria-labelledby="hero-title">
-      <h1 id="hero-title" className="sr-only">
-        {t("srTitle")}
-        {scenes.map((s) => `${s.word}.`).join(" ")}
-      </h1>
-
       <div data-stage className="hero-stage grain isolate">
         {/* Atmosphere: one backdrop per scene, cross-fading with the story (see `.atmo` in globals.css). */}
         <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden>
@@ -44,6 +39,13 @@ export async function Hero() {
           {/* Rings: one constant backdrop behind all three scenes. */}
           <div className="atmo-rings" />
           <div className="atmo-shade" />
+        </div>
+
+        {/* The brand line: constant above the three scenes. It says what we do; the words below say how. */}
+        <div className="hero-slogan container-x">
+          <h1 id="hero-title" className="fade-up font-display font-semibold text-fg" style={d(0.15)}>
+            <span className="slogan-make">{t("slogan.a")}</span> {t("slogan.b")} <span className="slogan-last text-accent-ink">{t("slogan.c")}.</span>
+          </h1>
         </div>
 
         {scenes.map((scene, i) => (
@@ -69,24 +71,21 @@ export async function Hero() {
         ))}
 
         <div className="hero-bar container-x">
+          {/* Kept for search engines and screen readers; the visible hero is the brand line + the scenes. */}
+          <p className="sr-only">{t("subheadline")}</p>
+          <div className="hero-actions fade-up flex gap-3" style={d(0.9)}>
+            <Magnetic className="max-sm:min-w-0 max-sm:flex-1">
+              <Link href="/contact" className="btn btn-primary max-sm:w-full max-sm:px-3 max-sm:text-sm">
+                {tc("requestQuote")}
+                <ArrowIcon className="btn-arrow max-sm:hidden" />
+              </Link>
+            </Magnetic>
+            <Link href="/work" className="btn btn-ghost max-sm:min-w-0 max-sm:flex-1 max-sm:px-3 max-sm:text-sm">
+              {tc("seeWork")}
+            </Link>
+          </div>
           <div className="hero-progress fade-up" style={d(0.7)} aria-hidden>
             <span className="hero-progress-fill" />
-          </div>
-          <div className="mt-5 grid items-end gap-6 lg:grid-cols-[minmax(0,34rem)_auto] lg:justify-between">
-            <p className="fade-up text-fg/75 max-md:sr-only md:text-lg" style={d(0.8)}>
-              {t("subheadline")}
-            </p>
-            <div className="fade-up flex gap-3" style={d(0.9)}>
-              <Magnetic className="max-sm:min-w-0 max-sm:flex-1">
-                <Link href="/contact" className="btn btn-primary max-sm:w-full max-sm:px-3 max-sm:text-sm">
-                  {tc("requestQuote")}
-                  <ArrowIcon className="btn-arrow max-sm:hidden" />
-                </Link>
-              </Magnetic>
-              <Link href="/work" className="btn btn-ghost max-sm:min-w-0 max-sm:flex-1 max-sm:px-3 max-sm:text-sm">
-                {tc("seeWork")}
-              </Link>
-            </div>
           </div>
         </div>
       </div>

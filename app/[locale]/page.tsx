@@ -5,7 +5,7 @@ import { ClientsMarquee } from "@/components/home/ClientsMarquee";
 import { Method } from "@/components/home/Method";
 import { Sectors } from "@/components/home/Sectors";
 import { SelectedWork } from "@/components/home/SelectedWork";
-import { Numbers } from "@/components/home/Numbers";
+import { Experience } from "@/components/home/Experience";
 import { Markets } from "@/components/home/Markets";
 import { FinalCta } from "@/components/home/FinalCta";
 
@@ -22,7 +22,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <Method />
       <Sectors />
       <SelectedWork />
-      <Numbers />
+      <Experience />
       <Markets />
       <FinalCta />
     </>

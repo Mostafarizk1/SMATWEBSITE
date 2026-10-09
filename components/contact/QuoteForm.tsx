@@ -4,26 +4,35 @@ import { useRef, useState } from "react";
 import { AnimatePresence, m } from "motion/react";
 import { ease } from "@/lib/motion";
 import { MotionProvider } from "@/components/motion/MotionProvider";
-import { submitQuote, validateQuote, type QuoteErrors, type QuoteRequest } from "@/lib/quote";
+import { submitQuote, validateQuote, type QuoteErrors, type QuoteField, type QuoteRequest } from "@/lib/quote";
 
 type Option = { value: string; label: string };
 
 export type QuoteFormLabels = {
   title: string;
   name: string;
+  nameHint: string;
   company: string;
+  companyHint: string;
+  email: string;
+  emailHint: string;
+  phone: string;
+  phoneHint: string;
   country: string;
+  countryHint: string;
   service: string;
+  serviceHint: string;
   message: string;
+  messageHint: string;
+  helper: string;
   optional: string;
-  select: string;
   submit: string;
   sending: string;
   successTitle: string;
   successBody: string;
   again: string;
   privacy: string;
-  errors: Record<keyof QuoteErrors, string>;
+  errors: Record<QuoteField, string>;
 };
 
 type Props = {
@@ -36,6 +45,8 @@ type Props = {
 const empty = (locale: string): QuoteRequest => ({
   name: "",
   company: "",
+  email: "",
+  phone: "",
   country: "",
   service: "",
   message: "",
@@ -45,6 +56,17 @@ const empty = (locale: string): QuoteRequest => ({
 
 const field =
   "mt-2 block w-full min-h-12 rounded-xl border border-line bg-surface px-4 py-3 text-base text-fg placeholder:text-muted/70 transition-colors focus:border-accent focus:outline-none aria-[invalid=true]:border-[#ff6b6b]";
+
+// Which input to focus for each error, in form order. "contact" (no way to reply) points at the email field.
+const focusOrder: [QuoteField, string][] = [
+  ["name", "name"],
+  ["contact", "email"],
+  ["email", "email"],
+  ["phone", "phone"],
+  ["country", "country"],
+  ["service", "service"],
+  ["message", "message"],
+];
 
 export function QuoteForm(props: Props) {
   return (
@@ -72,9 +94,9 @@ function Form({ labels, countries, services, locale }: Props) {
     setTouched(true);
     const errs = validateQuote(values);
     setErrors(errs);
-    const first = Object.keys(errs)[0];
+    const first = focusOrder.find(([key]) => errs[key]);
     if (first) {
-      formRef.current?.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+      formRef.current?.querySelector<HTMLElement>(`[name="${first[1]}"]`)?.focus();
       return;
     }
     setStatus("sending");
@@ -82,17 +104,22 @@ function Form({ labels, countries, services, locale }: Props) {
     setStatus("done");
   };
 
-  const err = (k: keyof QuoteErrors) =>
+  const err = (k: QuoteField) =>
     errors[k] ? (
       <p id={`${k}-error`} className="mt-2 text-sm text-[#ff8a8a]">
         {labels.errors[k]}
       </p>
     ) : null;
 
-  const a11y = (k: keyof QuoteErrors) => ({
-    "aria-invalid": errors[k] ? true : undefined,
-    "aria-describedby": errors[k] ? `${k}-error` : undefined,
-  });
+  const a11y = (...keys: QuoteField[]) => {
+    const active = keys.filter((k) => errors[k]);
+    return {
+      "aria-invalid": active.length ? true : undefined,
+      "aria-describedby": active.length ? active.map((k) => `${k}-error`).join(" ") : undefined,
+    };
+  };
+
+  const optional = <span className="text-muted">({labels.optional})</span>;
 
   return (
     <div className="relative rounded-3xl border border-line bg-bg p-6 sm:p-10">
@@ -132,14 +159,71 @@ function Form({ labels, countries, services, locale }: Props) {
               <label htmlFor="q-name" className="text-sm font-medium">
                 {labels.name}
               </label>
-              <input id="q-name" name="name" autoComplete="name" required value={values.name} onChange={(e) => update("name", e.target.value)} className={field} {...a11y("name")} />
+              <input
+                id="q-name"
+                name="name"
+                autoComplete="name"
+                required
+                placeholder={labels.nameHint}
+                value={values.name}
+                onChange={(e) => update("name", e.target.value)}
+                className={field}
+                {...a11y("name")}
+              />
               {err("name")}
             </div>
             <div>
               <label htmlFor="q-company" className="text-sm font-medium">
-                {labels.company} <span className="text-muted">({labels.optional})</span>
+                {labels.company} {optional}
               </label>
-              <input id="q-company" name="company" autoComplete="organization" value={values.company} onChange={(e) => update("company", e.target.value)} className={field} />
+              <input
+                id="q-company"
+                name="company"
+                autoComplete="organization"
+                placeholder={labels.companyHint}
+                value={values.company}
+                onChange={(e) => update("company", e.target.value)}
+                className={field}
+              />
+            </div>
+            <div>
+              <label htmlFor="q-email" className="text-sm font-medium">
+                {labels.email}
+              </label>
+              <input
+                id="q-email"
+                name="email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                dir="ltr"
+                placeholder={labels.emailHint}
+                value={values.email}
+                onChange={(e) => update("email", e.target.value)}
+                className={`${field} placeholder:text-start`}
+                {...a11y("contact", "email")}
+              />
+              {err("email")}
+              {err("contact")}
+            </div>
+            <div>
+              <label htmlFor="q-phone" className="text-sm font-medium">
+                {labels.phone}
+              </label>
+              <input
+                id="q-phone"
+                name="phone"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
+                dir="ltr"
+                placeholder={labels.phoneHint}
+                value={values.phone}
+                onChange={(e) => update("phone", e.target.value)}
+                className={`${field} placeholder:text-start`}
+                {...a11y("contact", "phone")}
+              />
+              {err("phone")}
             </div>
             <div>
               <label htmlFor="q-country" className="text-sm font-medium">
@@ -154,7 +238,7 @@ function Form({ labels, countries, services, locale }: Props) {
                 className={field}
                 {...a11y("country")}
               >
-                <option value="">{labels.select}</option>
+                <option value="">{labels.countryHint}</option>
                 {countries.map((o) => (
                   <option key={o.value} value={o.value}>
                     {o.label}
@@ -168,7 +252,7 @@ function Form({ labels, countries, services, locale }: Props) {
                 {labels.service}
               </label>
               <select id="q-service" name="service" required value={values.service} onChange={(e) => update("service", e.target.value)} className={field} {...a11y("service")}>
-                <option value="">{labels.select}</option>
+                <option value="">{labels.serviceHint}</option>
                 {services.map((o) => (
                   <option key={o.value} value={o.value}>
                     {o.label}
@@ -186,12 +270,14 @@ function Form({ labels, countries, services, locale }: Props) {
                 name="message"
                 required
                 rows={5}
+                placeholder={labels.messageHint}
                 value={values.message}
                 onChange={(e) => update("message", e.target.value)}
                 className={`${field} resize-y`}
                 {...a11y("message")}
               />
               {err("message")}
+              <p className="mt-2 text-sm text-muted">{labels.helper}</p>
             </div>
             <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm text-muted">{labels.privacy}</p>

@@ -1,36 +1,10 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Design tokens. Swap the real brand palette in here, nowhere else.
+   Design tokens: the SMAT palette ("Electric"). Change brand colours here, nowhere else.
    Contrast verified with scripts/contrast.mjs (all pairs ≥ WCAG AA).
    ────────────────────────────────────────────────────────────── */
-html[data-theme="night"] {
-  --bg: #0a0a0f;
-  --surface: #15151d;
-  --line: #26262f;
-  --text: #f4f2ed;
-  --muted: #9a98a3;
-  --accent: #d4ff3a;
-  --accent-2: #7b61ff;
-  --on-accent: #0a0a0f; /* text on accent buttons */
-  --accent-ink: #d4ff3a; /* accent used as text on dark bg */
-}
-
-html[data-theme="desert"] {
-  --bg: #0f0e0c;
-  --surface: #1a1815;
-  --line: #2b2823;
-  --text: #f3ede3;
-  --muted: #a39a8c;
-  --accent: #c8a15a;
-  --accent-2: #e8d9bd;
-  --on-accent: #0f0e0c;
-  --accent-ink: #c8a15a;
-}
-
-/* Electric is the adopted palette (decided 2026-09-29), so it is also the :root default. */
-:root,
-[data-theme="electric"] {
+:root {
   --bg: #07080d;
   --surface: #11131c;
   --line: #1f2230;
@@ -38,8 +12,8 @@ html[data-theme="desert"] {
   --muted: #8e94a6;
   --accent: #3d5afe;
   --accent-2: #ff6a3d;
-  --on-accent: #ffffff; /* dark text on #3D5AFE is only 3.9:1 */
-  --accent-ink: #8196ff; /* #3D5AFE as text on bg is 3.5:1, this is 7.4:1 */
+  --on-accent: #ffffff; /* text on accent buttons (dark text on #3D5AFE is only 3.9:1) */
+  --accent-ink: #8196ff; /* accent used as text on the dark bg (#3D5AFE itself is 3.5:1; this is 7.4:1) */
 }
 
 :root {
@@ -573,7 +547,7 @@ html.js [data-reveal]:not([data-shown]) {
   position: relative;
   flex: 1;
   min-height: 0;
-  margin: 0.75rem 6% 1.25rem;
+  margin: 2.75rem 6% 1.25rem;
   scale: calc(1 - var(--a, 0) * 0.14);
 }
 .layer {
@@ -587,7 +561,50 @@ html.js [data-reveal]:not([data-shown]) {
 }
 .hero-bar {
   grid-area: 2 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   padding-block: 1.25rem 5.75rem; /* clears the floating WhatsApp button on phones */
+}
+/* Phones: progress line, then two full-width buttons. Desktop: buttons sit on the tagline's row,
+   at the far end, and the progress line closes the hero. */
+.hero-bar {
+  min-width: 0; /* grid item: without this, two nowrap buttons push it wider than a phone screen */
+}
+.hero-actions {
+  order: 2;
+}
+@media (max-width: 639px) {
+  /* Two equal columns: a grid is exact where flex let the longer label win. */
+  .hero-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero-actions > *,
+  .hero-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}
+/* The brand line. Phones: one small line under the header. Desktop: top of the copy column,
+   about a third of the scene word's size, so it leads without competing. */
+.hero-slogan {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(var(--header-h) + 0.5rem);
+  z-index: 1;
+  pointer-events: none;
+}
+.hero-slogan h1 {
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+/* In the "Create" scene the same verb in the brand line lights up. */
+.slogan-make {
+  transition: color 0.5s ease;
+}
+#hero[data-index="1"] .slogan-make {
+  color: var(--accent-2);
 }
 .hero-progress {
   height: 2px;
@@ -604,6 +621,9 @@ html.js [data-reveal]:not([data-shown]) {
 @media (min-width: 768px) {
   .hero-bar {
     padding-bottom: 2.5rem;
+  }
+  .hero-slogan h1 {
+    font-size: 1.375rem;
   }
   .scene-art {
     margin-inline: 18%;
@@ -626,6 +646,27 @@ html.js [data-reveal]:not([data-shown]) {
     flex: none;
     height: min(62svh, 34rem);
     margin: 0;
+  }
+  .hero-bar {
+    /* Pull the buttons up onto the tagline's row. */
+    margin-top: -4.25rem;
+    padding-top: 0;
+    gap: 1rem;
+  }
+  .hero-actions {
+    order: 0;
+    align-self: flex-end;
+  }
+  .scene-copy {
+    padding-bottom: 1.5rem;
+  }
+  .hero-slogan {
+    top: calc(var(--header-h) + clamp(1.5rem, 7svh, 4.5rem));
+  }
+  .hero-slogan h1 {
+    max-width: 14ch;
+    font-size: clamp(1.9rem, 3.3vw, 3.25rem);
+    line-height: 1.25;
   }
 }
 
@@ -914,4 +955,159 @@ html:not(.js) .scene {
   --tt: 0;
   scale: 1;
   opacity: clamp(0, calc((0.5 - var(--in, 0)) * 200), 1);
+}
+
+/* ── Where we work: the Gulf map (components/home/Markets) ───────
+   Outlines come from content/gulf-map.ts. Hovering a country, its pin or its name chip lights up all
+   three: the link is :has(), no JS. */
+.gmap-ctx {
+  fill: color-mix(in oklab, var(--surface) 80%, var(--bg));
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.gmap-act {
+  fill: color-mix(in oklab, var(--accent) 24%, var(--surface));
+  stroke: var(--accent-ink);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+  transition: fill 0.3s ease;
+}
+.gmap-arc {
+  stroke: var(--accent-2);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  opacity: 0.85;
+  stroke-dasharray: 1; /* pathLength=1: lets the thread draw itself */
+}
+.gmap-dot {
+  fill: var(--text);
+  transition: fill 0.3s ease;
+}
+.gmap-halo {
+  fill: var(--accent-2);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: gmap-ping 3.2s ease-out infinite;
+}
+@keyframes gmap-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+.gmap-label {
+  display: none; /* phones: the map is small, the name chips below do the naming */
+  fill: var(--text);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 24px;
+  paint-order: stroke;
+  stroke: var(--bg);
+  stroke-width: 7px;
+  stroke-linejoin: round;
+}
+@media (min-width: 640px) {
+  .gmap-label {
+    display: block;
+    font-size: 17px;
+    stroke-width: 5px;
+  }
+}
+.gmap-pin {
+  cursor: default;
+}
+.gmap:has([data-k="sa"]:hover) .gmap-act[data-k="sa"],
+.gmap:has([data-k="ae"]:hover) .gmap-act[data-k="ae"],
+.gmap:has([data-k="kw"]:hover) .gmap-act[data-k="kw"],
+.gmap:has([data-k="qa"]:hover) .gmap-act[data-k="qa"],
+.gmap:has([data-k="bh"]:hover) .gmap-act[data-k="bh"],
+.gmap:has([data-k="om"]:hover) .gmap-act[data-k="om"],
+.gmap:has([data-k="eg"]:hover) .gmap-act[data-k="eg"],
+.gmap:has([data-k="tr"]:hover) .gmap-act[data-k="tr"] {
+  fill: color-mix(in oklab, var(--accent) 72%, var(--surface));
+}
+.gmap:has([data-k="sa"]:hover) .gmap-pin[data-k="sa"] .gmap-dot,
+.gmap:has([data-k="ae"]:hover) .gmap-pin[data-k="ae"] .gmap-dot,
+.gmap:has([data-k="kw"]:hover) .gmap-pin[data-k="kw"] .gmap-dot,
+.gmap:has([data-k="qa"]:hover) .gmap-pin[data-k="qa"] .gmap-dot,
+.gmap:has([data-k="bh"]:hover) .gmap-pin[data-k="bh"] .gmap-dot,
+.gmap:has([data-k="om"]:hover) .gmap-pin[data-k="om"] .gmap-dot,
+.gmap:has([data-k="eg"]:hover) .gmap-pin[data-k="eg"] .gmap-dot,
+.gmap:has([data-k="tr"]:hover) .gmap-pin[data-k="tr"] .gmap-dot {
+  fill: var(--accent-2);
+}
+.gmap:has([data-k="sa"]:hover) .gmap-name[data-k="sa"],
+.gmap:has([data-k="ae"]:hover) .gmap-name[data-k="ae"],
+.gmap:has([data-k="kw"]:hover) .gmap-name[data-k="kw"],
+.gmap:has([data-k="qa"]:hover) .gmap-name[data-k="qa"],
+.gmap:has([data-k="bh"]:hover) .gmap-name[data-k="bh"],
+.gmap:has([data-k="om"]:hover) .gmap-name[data-k="om"],
+.gmap:has([data-k="eg"]:hover) .gmap-name[data-k="eg"],
+.gmap:has([data-k="tr"]:hover) .gmap-name[data-k="tr"] {
+  border-color: var(--accent-ink);
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+}
+
+/* The thread reaches the map. Before the map is revealed everything waits in its "not yet" state;
+   once revealed, each route draws and its market lights up in turn (--gd is the market's delay).
+   Keyframes only have a start: after they finish, the normal rules (and hover) take over.
+   The routes animate stroke-dashoffset once, on reveal: a few thin SVG strokes. */
+html.js .gmap-stage:not([data-shown]) .gmap-arc {
+  stroke-dashoffset: 1;
+}
+html.js .gmap-stage:not([data-shown]) .gmap-act {
+  fill: color-mix(in oklab, var(--surface) 80%, var(--bg));
+  stroke: var(--line);
+}
+html.js .gmap-stage:not([data-shown]) .gmap-pin {
+  opacity: 0;
+}
+.gmap-stage[data-shown] .gmap-arc {
+  animation: gmap-draw 0.9s var(--ease-out) backwards;
+  animation-delay: var(--gd, 0s);
+}
+.gmap-stage[data-shown] .gmap-act {
+  animation: gmap-light 0.7s ease backwards;
+  animation-delay: calc(var(--gd, 0s) + 0.6s);
+}
+.gmap-stage[data-shown] .gmap-pin {
+  animation: gmap-pop 0.45s ease backwards;
+  animation-delay: calc(var(--gd, 0s) + 0.7s);
+}
+@keyframes gmap-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes gmap-light {
+  from {
+    fill: color-mix(in oklab, var(--surface) 80%, var(--bg));
+    stroke: var(--line);
+  }
+}
+@keyframes gmap-pop {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Every market has its own signature: a pattern laid over the country, shown on hover. */
+.gmap-sig {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.gmap:has([data-k="sa"]:hover) .gmap-sig[data-k="sa"],
+.gmap:has([data-k="ae"]:hover) .gmap-sig[data-k="ae"],
+.gmap:has([data-k="kw"]:hover) .gmap-sig[data-k="kw"],
+.gmap:has([data-k="qa"]:hover) .gmap-sig[data-k="qa"],
+.gmap:has([data-k="bh"]:hover) .gmap-sig[data-k="bh"],
+.gmap:has([data-k="om"]:hover) .gmap-sig[data-k="om"],
+.gmap:has([data-k="eg"]:hover) .gmap-sig[data-k="eg"],
+.gmap:has([data-k="tr"]:hover) .gmap-sig[data-k="tr"] {
+  opacity: 0.85;
 }

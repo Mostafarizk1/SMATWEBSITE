@@ -3,12 +3,15 @@ import { Link } from "@/components/ui/Link";
 import { Logo } from "@/components/brand/Logo";
 import { navItems } from "@/lib/nav";
 import { site, whatsappHref } from "@/content/site";
+import { SocialIcon } from "@/components/ui/Icons";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export async function Footer() {
   const t = await getTranslations("footer");
   const tn = await getTranslations("nav");
   const tc = await getTranslations("common");
+  const th = await getTranslations("hero");
+  const tmeta = await getTranslations("meta");
   const locale = await getLocale();
   const year = new Date().getFullYear();
 
@@ -21,7 +24,7 @@ export async function Footer() {
           </Link>
           <p className="mt-5 max-w-sm text-muted">{t("description")}</p>
           <p className="mt-6 font-display text-lg font-semibold" lang={locale}>
-            {locale === "ar" ? "نفكّر. نصنع. نطوّر." : "Think. Create. Grow."}
+            {th("slogan.a")} {th("slogan.b")} {th("slogan.c")}.
           </p>
         </div>
 
@@ -61,11 +64,18 @@ export async function Footer() {
 
         <div className="md:col-span-2">
           <h2 className="text-sm text-muted">{t("follow")}</h2>
-          <ul className="mt-4 space-y-1">
+          <ul className="mt-4 flex flex-wrap gap-2">
             {site.socials.map((s) => (
               <li key={s.id}>
-                <a href={s.href} className="inline-flex min-h-10 items-center hover:text-accent-ink" rel="noopener">
-                  {s.label}
+                {/* PLACEHOLDER links (content/site.ts): replace with the real accounts before launch. */}
+                <a
+                  href={s.href}
+                  rel="noopener"
+                  aria-label={`${t("follow")} ${t("followOn", { name: s.label })}`}
+                  title={s.label}
+                  className="inline-flex size-11 items-center justify-center rounded-full border border-line text-fg transition-colors hover:border-accent-ink hover:bg-accent hover:text-on-accent"
+                >
+                  <SocialIcon id={s.id} />
                 </a>
               </li>
             ))}
@@ -75,7 +85,7 @@ export async function Footer() {
 
       <div className="container-x flex flex-col-reverse items-start justify-between gap-4 border-t border-line py-6 text-sm text-muted sm:flex-row sm:items-center">
         <p>
-          © {year} {site.name}. {t("rights")}
+          © {year} {tmeta("siteName")}. {t("rights")}
         </p>
         <LanguageSwitcher locale={locale} label={t("language")} ariaLabel={tn("switchLocaleLabel")} className="px-4" />
       </div>

@@ -21,14 +21,12 @@ Copy `.env.example` to `.env.local` and set `NEXT_PUBLIC_SITE_URL` once the doma
 | All UI copy (AR/EN) | `messages/ar.json`, `messages/en.json` |
 | Services, work, clients, stats, markets (CMS-ready, typed) | `content/*.ts` |
 | WhatsApp number, email, socials, showreel files | `content/site.ts` |
-| Brand colours (3 test palettes) | `app/globals.css` → `:root` / `[data-theme]` tokens |
+| Brand colours (the Electric palette) | `app/globals.css` → `:root` tokens |
 | Logo (placeholder wordmark, swap in the SVG) | `components/brand/Logo.tsx` |
 | Logo intro (first visit per session) | `components/intro/*` |
 | Quote form (logs only, ready for Supabase) | `components/contact/QuoteForm.tsx`, `lib/quote.ts` |
 | SEO (metadata, hreflang, JSON-LD) | `lib/seo.ts`, `app/sitemap.ts`, `app/robots.ts` |
 
-The palette switcher (bottom corner) shows in development only. Set `NEXT_PUBLIC_THEME_SWITCHER=1`
-to show it on a preview deploy for the team.
 
 ## Performance decisions
 

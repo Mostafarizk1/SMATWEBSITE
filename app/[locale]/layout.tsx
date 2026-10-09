@@ -11,10 +11,7 @@ import { RevealObserver } from "@/components/motion/RevealObserver";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/layout/WhatsAppFab";
-import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import "../globals.css";
-
-const showThemeSwitcher = process.env.NODE_ENV === "development" || process.env.NEXT_PUBLIC_THEME_SWITCHER === "1";
 
 export const viewport: Viewport = {
   themeColor: "#07080D",
@@ -37,18 +34,18 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
 
   const t = await getTranslations({ locale, namespace: "nav" });
   const tMeta = await getTranslations({ locale, namespace: "meta" });
-  const tDev = await getTranslations({ locale, namespace: "dev" });
+  const tHero = await getTranslations({ locale, namespace: "hero" });
+  const slogan = [tHero("slogan.a"), tHero("slogan.b"), tHero("slogan.c")].join(" ");
 
   return (
     <html
       lang={locale}
       dir={localeDir(locale)}
-      data-theme="electric"
       className={`${alexandria.variable} ${plexArabic.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <head>
-        <InlineScript html={bootScript(showThemeSwitcher)} />
+        <InlineScript html={bootScript} />
       </head>
       <body>
         <a
@@ -64,10 +61,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
         <Footer />
         <WhatsAppFab />
         <RevealObserver />
-        {showThemeSwitcher && <ThemeSwitcher label={tDev("theme")} />}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale, tMeta("description"))) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd(locale, tMeta("siteName"), tMeta("description"), slogan)) }}
         />
       </body>
     </html>

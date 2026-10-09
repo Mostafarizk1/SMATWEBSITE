@@ -1,28 +1,28 @@
 {
   "meta": {
-    "siteName": "SMAT Studio",
-    "title": "SMAT Studio | Full-service digital marketing agency: plan, create, manage",
-    "description": "A full-service digital marketing agency across Saudi Arabia, UAE, Oman and Jordan: marketing strategy and plans, design, video and content, websites and apps, and page and ad campaign management on every platform.",
+    "siteName": "SMAT",
+    "title": "SMAT | A signature for every brand",
+    "description": "SMAT is a digital marketing and creative studio: strategy, identity, content and video, websites and campaign management. We work with brands in Saudi Arabia, the Gulf, Egypt and Türkiye, and wherever their audience is. A team with more than 12 years of marketing experience.",
     "pages": {
       "services": {
-        "title": "Services",
-        "description": "Everything your brand needs under one roof, from strategy to content to paid media and results."
+        "title": "Digital marketing and creative services",
+        "description": "From strategy and identity to content, websites and campaign management. Connected services for established and new companies, starting with what your project and its market need."
       },
       "work": {
         "title": "Work",
-        "description": "Selected projects for brands and companies across the Gulf and Jordan."
+        "description": "Samples of the SMAT team's work across sectors: identity, content, video, websites and campaigns."
       },
       "realEstate": {
-        "title": "Real Estate Marketing",
-        "description": "Real estate films, 3D visualization, Gaussian Splatting fly-throughs and launch campaigns for developers."
+        "title": "Real estate marketing and content",
+        "description": "Real estate films, 3D visualization, interactive tours and digital campaigns that show your project's value and bring interested buyers to your sales team."
       },
       "about": {
-        "title": "About",
-        "description": "SMAT Studio: Strategy, Marketing, Advertising, Technology. One team that thinks, creates and grows."
+        "title": "About SMAT",
+        "description": "Meet SMAT: a marketing and creative team with more than 12 years of experience that learns a market before speaking to it, with disciplines that work together to build brands."
       },
       "contact": {
-        "title": "Request a Quote",
-        "description": "Tell us about your project and our team will get back to you within one business day."
+        "title": "Let's talk about your project",
+        "description": "Tell the SMAT team about your project and your marketing goal. We discuss what you need and suggest the right services for your brand, wherever its market is."
       }
     }
   },
@@ -30,7 +30,6 @@
     "home": "Home",
     "services": "Services",
     "work": "Work",
-    "realEstate": "Real Estate",
     "about": "About",
     "contact": "Contact",
     "menu": "Menu",
@@ -38,99 +37,99 @@
     "switchLocale": "ع",
     "switchLocaleLabel": "التبديل إلى العربية",
     "skipToContent": "Skip to content",
-    "primary": "Main navigation",
-    "home_label": "SMAT Studio, home"
+    "primary": "Main navigation"
   },
   "common": {
-    "requestQuote": "Request a Quote",
-    "seeWork": "See Our Work",
+    "requestQuote": "Let's talk",
+    "seeWork": "See our work",
     "whatsapp": "Chat on WhatsApp",
     "whatsappShort": "WhatsApp",
-    "whatsappMessage": "Hi SMAT Studio, I'd like to ask about your services.",
-    "viewAll": "View all",
-    "placeholder": "Placeholder"
+    "whatsappMessage": "Hello SMAT team, I'd like to discuss what my project needs from your marketing services."
   },
   "intro": {
     "skip": "Skip intro"
   },
   "hero": {
-    "srTitle": "SMAT Studio: ",
+    "slogan": {
+      "a": "We create",
+      "b": "a signature for",
+      "c": "every brand"
+    },
     "words": {
       "think": "Think",
       "create": "Create",
       "grow": "Grow"
     },
-    "subheadline": "A full-service digital marketing agency: we set the plan, execute it in design, video, content and web, then manage your pages and campaigns and track the results.",
-    "scroll": "Scroll",
     "lines": {
       "think": "We start with the right question.",
       "create": "We make what gets noticed, understood and remembered.",
       "grow": "We measure the impact, then build on it."
-    }
+    },
+    "subheadline": "Every project has something worth being chosen for. We find it, then build the strategy, identity, content and campaigns around it."
   },
   "clients": {
-    "label": "Trusted by"
+    "label": "Brands our team has worked with"
   },
   "method": {
-    "eyebrow": "Our method",
-    "title": "Think. Then create. Then grow.",
-    "intro": "Every project moves through three clear stages. No design before strategy, no ads before content worth promoting.",
-    "smatNote": "SMAT stands for Strategy · Marketing · Advertising · Technology",
-    "smatLetters": {
-      "s": "Strategy",
-      "m": "Marketing",
-      "a": "Advertising",
-      "t": "Technology"
-    },
-    "tablistLabel": "Stages of our method",
+    "eyebrow": "How we work",
+    "title": "Think. Create. Grow.",
+    "intro": "One question comes before everything: why would a customer choose you? The answer becomes a direction, and the direction becomes work we launch, measure and improve.",
+    "tablistLabel": "Stages of how we work",
     "pillars": {
       "think": {
         "name": "Think",
         "latin": "نفكّر",
-        "tagline": "We start by understanding the market, the audience and the goal."
+        "tagline": "We learn your project the way you know it, and your market the way your customer sees it."
       },
       "create": {
         "name": "Create",
         "latin": "نصنع",
-        "tagline": "We turn the idea into identity and content people see and remember."
+        "tagline": "We give the idea a look and a voice people know you by."
       },
       "grow": {
         "name": "Grow",
         "latin": "نطوّر",
-        "tagline": "We put it in front of the right people and measure every result."
+        "tagline": "What happens after launch is half the work. We follow it and learn from it."
       }
     },
-    "cta": "Discuss your project"
+    "bottomLine": "Many disciplines. One direction.",
+    "cta": "Let's define your next step"
   },
-  "realEstate": {
-    "eyebrow": "Our strongest edge",
-    "title": "Sold before it's built.",
-    "body": "We help developers make buyers see their future home before the first column is poured: cinematic films, 3D visualization and immersive fly-throughs, launched with campaigns built to sell.",
-    "features": {
-      "film": {
-        "title": "Real estate films",
-        "body": "Aerial and cinematic footage with a story that sells the place."
+  "sectors": {
+    "eyebrow": "Sectors we know",
+    "title": "Every field has its logic. Every brand has its signature.",
+    "intro": "Buying a home is a decision. Choosing a café is a mood. You don't speak to both the same way.",
+    "more": "See our real estate solutions",
+    "items": {
+      "realEstate": {
+        "name": "Real estate",
+        "line": "We show buyers the project before they visit, and bring them to your sales team."
       },
-      "viz": {
-        "title": "3D visualization",
-        "body": "Photoreal exteriors and interiors, before construction starts."
+      "food": {
+        "name": "Restaurants and cafés",
+        "line": "We carry the feel of the place to the screen, and turn follows into visits."
       },
-      "splat": {
-        "title": "Gaussian Splatting",
-        "body": "Lifelike fly-throughs inside and around the project."
+      "retail": {
+        "name": "Retail and e-commerce",
+        "line": "From the ad to the cart, with no extra steps."
       },
-      "launch": {
-        "title": "Launch campaigns",
-        "body": "From landing page to paid ads to lead follow-up."
+      "health": {
+        "name": "Health and beauty",
+        "line": "Content that explains and reassures, and booking made easier."
+      },
+      "education": {
+        "name": "Education and training",
+        "line": "We make it clear who the program is for, and why now."
+      },
+      "corporate": {
+        "name": "Companies and services",
+        "line": "We simplify the complex, so the customer knows why they need you."
       }
-    },
-    "cta": "Explore real estate marketing",
-    "mediaAlt": "3D visualization of a residential tower, placeholder",
-    "reelBadge": "Real estate reel · coming soon"
+    }
   },
   "work": {
-    "eyebrow": "Selected work",
-    "title": "Work that speaks in results.",
+    "eyebrow": "From our work",
+    "title": "This is how ideas take shape.",
     "filterLabel": "Filter by category",
     "all": "All",
     "categories": {
@@ -139,64 +138,157 @@
       "campaigns": "Campaigns",
       "video": "Video & 3D"
     },
-    "viewAll": "All work",
-    "empty": "No projects in this category yet."
+    "viewAll": "Explore the work",
+    "empty": "No work in this category yet."
   },
-  "numbers": {
-    "eyebrow": "By the numbers",
-    "title": "Experience you can measure.",
-    "items": {
-      "projects": "Projects delivered",
-      "clients": "Clients",
-      "countries": "Countries",
-      "years": "Years of experience"
+  "experience": {
+    "eyebrow": "The experience behind the work",
+    "title": "Experience that sees the whole picture.",
+    "body": "More than 12 years across different sectors taught our team that the question comes before the budget, and that a good idea is one that serves the business.",
+    "yearsLabel": "years of marketing experience in our team",
+    "tiles": {
+      "gulf": {
+        "title": "We learn the market before we speak to it",
+        "body": "Language, culture, seasons and buying habits change from one country to the next."
+      },
+      "sectors": {
+        "title": "Experience across sectors",
+        "body": "From property to restaurants to retail. Each sector taught us something."
+      },
+      "team": {
+        "title": "Disciplines that work together",
+        "body": "The writer, the designer and the campaign manager sit at the same table."
+      }
     }
   },
   "markets": {
-    "eyebrow": "Where we work",
-    "title": "From Riyadh to Amman.",
-    "body": "A team that knows each local market: the dialect, the audience and the platforms that make the difference.",
-    "mapLabel": "Simplified map connecting the four countries we work in"
+    "eyebrow": "Our markets",
+    "title": "No two markets are alike.",
+    "body": "We work where your audience is. What works in one market may not work next door, so we choose the language, the platform and the message for each market on its own.",
+    "caption": "Markets we serve today. We work beyond them too",
+    "mapLabel": "Map of markets we serve: Saudi Arabia, UAE, Kuwait, Qatar, Bahrain, Oman, Egypt and Türkiye",
+    "hint": "Hover a country to highlight it"
   },
   "finalCta": {
-    "title": "Ready to start your next project?",
-    "body": "Tell us your goal and we'll come back with a clear plan and a quote within one business day."
+    "title": "The next step starts with a conversation.",
+    "body": "Tell us where your project stands and what you want to change. We'll work out the rest together."
   },
   "footer": {
-    "description": "A full-service digital marketing agency: planning, execution and management for brands in Saudi Arabia, UAE, Oman and Jordan.",
-    "explore": "Explore",
-    "contact": "Contact",
-    "follow": "Follow",
+    "description": "A marketing and creative studio for established and new companies, in the Gulf and beyond. Strategy, content, design, development and campaign management, in one team.",
+    "explore": "Discover SMAT",
+    "contact": "Stay in touch",
+    "follow": "Follow our work",
     "rights": "All rights reserved.",
-    "language": "العربية"
+    "language": "العربية",
+    "followOn": "on {name}"
+  },
+  "realEstate": {
+    "eyebrow": "What we offer a real estate project",
+    "body": "Location, spaces, design and services: every project has elements that decide a buyer's choice. We arrange them into a visual story and plain messages, then choose how to show them and which channels will carry them.",
+    "features": {
+      "film": {
+        "title": "Films that carry the feel of the place",
+        "body": "Ground and aerial footage, with a script and edit suited to the project's audience and marketing stage."
+      },
+      "viz": {
+        "title": "Visualization that shows the details",
+        "body": "Exterior and interior scenes, based on the approved plans and specifications."
+      },
+      "splat": {
+        "title": "A tour that closes the distance",
+        "body": "Interactive experiences to explore the place from more than one angle, including Gaussian Splatting."
+      },
+      "launch": {
+        "title": "A launch that turns interest into contact",
+        "body": "Messages, content, landing pages and campaigns, with lead quality followed up with the sales team."
+      }
+    },
+    "mediaAlt": "3D visualization of a residential project, placeholder image",
+    "reelBadge": "The project, from closer up"
   },
   "pages": {
     "services": {
       "eyebrow": "Services",
-      "title": "Everything your brand needs, under one roof.",
-      "intro": "Three stages and thirteen services, run by one team that knows your goal from day one."
+      "title": "Every discipline in its place. All of it for your brand.",
+      "intro": "Strategy, creative, execution and management in one team. Whether you are launching a project or developing an existing brand, we define what you need and connect the services to each other.",
+      "includes": "Includes",
+      "stages": {
+        "think": {
+          "title": "We set the direction",
+          "intro": "Good choices start with good understanding. We read your project, market and audience, and set priorities before any execution."
+        },
+        "create": {
+          "title": "We give the brand its features",
+          "intro": "We turn the direction into identity, content and digital experiences that carry your brand's character."
+        },
+        "grow": {
+          "title": "We work on what comes after launch",
+          "intro": "Every interaction adds to what we understand. We manage presence and campaigns, and use what we learn to develop the work."
+        }
+      },
+      "cta": {
+        "title": "What step does your brand need now?",
+        "body": "One service, or full marketing management. We start by understanding what you need, then suggest a scope that fits."
+      }
     },
     "work": {
       "eyebrow": "Work",
-      "title": "Selected work.",
-      "intro": "Full case studies with results are coming soon. Here's a first look."
+      "title": "This is how ideas take shape.",
+      "intro": "Samples of our team's work. The sectors vary; each brand keeps its own character."
     },
     "realEstate": {
-      "eyebrow": "Real estate",
-      "title": "Sold before it's built.",
-      "intro": "From concept to off-plan sales: visual content and campaigns built specifically for real estate developers in the Gulf and Jordan."
+      "eyebrow": "Our solutions for real estate",
+      "title": "Every project has details worth seeing.",
+      "intro": "We help developers and real estate companies present their projects: from identity and visual content to launch campaigns, in coordination with the sales team.",
+      "cta": {
+        "title": "Let's show what sets your project apart.",
+        "body": "Share the project's location, stage and audience, and we'll define the content and services that suit it."
+      }
     },
     "about": {
-      "eyebrow": "About",
-      "title": "One studio. Four disciplines.",
-      "intro": "SMAT brings Strategy, Marketing, Advertising and Technology into one team, so we work as a true extension of yours, not an outside vendor."
+      "eyebrow": "About SMAT",
+      "title": "Many kinds of experience. One signature.",
+      "intro": "SMAT is a marketing and creative team with more than 12 years of experience across sectors. We help established and new companies, in the Gulf and beyond, build brands people recognise, manage their presence and develop their marketing performance.",
+      "name": {
+        "title": "The name explains the method.",
+        "body": "In Arabic, «سمت» means the character something is known by. Every brand has one worth being known for: in its idea, in how it speaks, and in the experience it offers. We start with what sets your project apart, then show it in your identity, content and campaigns."
+      },
+      "cards": {
+        "close": {
+          "title": "Close to your project",
+          "body": "We listen, we ask, and we stay in touch with your team. Our understanding grows with every note and result."
+        },
+        "gulf": {
+          "title": "We learn the market before we speak to it",
+          "body": "We pay attention to language, culture, seasons and buying habits in each country, and choose what suits each audience."
+        },
+        "team": {
+          "title": "One team",
+          "body": "Thinking, content, design, development and campaigns around one goal. Each step completes the one before."
+        },
+        "improve": {
+          "title": "We review and develop",
+          "body": "We follow performance, discuss what we learned, and turn notes into decisions."
+        }
+      },
+      "collab": {
+        "title": "We get close to your business, wherever it is.",
+        "body": "We take on planning, execution and management, in regular contact with your team. We exchange updates with sales and operations, so campaigns reflect the real service and develop with customer feedback."
+      },
+      "cta": {
+        "title": "We want to know what you are building.",
+        "body": "Tell us about your project and your ambition, and let's see how the SMAT team can work with you."
+      }
     },
     "contact": {
       "eyebrow": "Contact",
-      "title": "Let's talk.",
-      "intro": "Fill in the form and we'll get back to you within one business day, or message us directly on WhatsApp."
+      "title": "Tell us about your brand.",
+      "intro": "Where do you stand today, and where do you want to get to? Write us a short brief about your project, and we'll get in touch to discuss the right step.",
+      "direct": {
+        "title": "Prefer to start right away?",
+        "body": "Message us on WhatsApp, or send a brief about your project to our email."
+      }
     },
-    "ctaTitle": "Have a project in mind?",
     "notFound": {
       "title": "Page not found",
       "body": "The page may have moved, or the link is incorrect.",
@@ -204,68 +296,50 @@
     }
   },
   "form": {
-    "title": "Request a quote form",
+    "title": "Contact form",
     "name": "Name",
-    "company": "Company",
+    "nameHint": "What should we call you?",
+    "company": "Company or brand name",
+    "companyHint": "Your project's name",
+    "email": "Email",
+    "emailHint": "An email we can reach you on",
+    "phone": "Phone number",
+    "phoneHint": "Your number with country code",
     "country": "Country",
+    "countryHint": "Where does your project operate?",
     "service": "Service needed",
-    "message": "Tell us about your project",
+    "serviceHint": "How can we help?",
+    "message": "About the project",
+    "messageHint": "What do you offer? Who is your audience? What goal or challenge do you want to work on?",
+    "helper": "You don't need everything ready now. A short brief is enough to start the conversation.",
     "optional": "optional",
-    "select": "Select…",
     "countries": {
       "sa": "Saudi Arabia",
       "ae": "UAE",
+      "kw": "Kuwait",
+      "qa": "Qatar",
+      "bh": "Bahrain",
       "om": "Oman",
-      "jo": "Jordan",
-      "other": "Other"
+      "eg": "Egypt",
+      "tr": "Türkiye",
+      "other": "Another country"
     },
-    "otherService": "Other / multiple services",
-    "submit": "Send request",
-    "sending": "Sending…",
+    "integrated": "Full marketing management",
+    "unsure": "I need help choosing the right service",
+    "submit": "Send your project details",
+    "sending": "Sending your request…",
     "errors": {
-      "name": "Please enter your name (at least 2 characters).",
-      "country": "Please choose a country.",
-      "service": "Please choose a service.",
-      "message": "Please add a short brief (at least 20 characters)."
+      "name": "Enter your name so we know how to address you.",
+      "contact": "Add an email or a phone number so we can reply.",
+      "email": "Check the email format.",
+      "phone": "Check the number and add the country code.",
+      "country": "Choose the project's country.",
+      "service": "Choose a service, or choose \"I need help choosing the right service\".",
+      "message": "Add a short brief to help us understand your project."
     },
-    "successTitle": "Got it, thank you!",
-    "successBody": "Our team will get back to you within one business day.",
+    "successTitle": "We received your project details.",
+    "successBody": "Thank you for contacting SMAT. We'll get in touch to discuss the next step.",
     "again": "Send another request",
-    "privacy": "We never share your details with third parties."
-  },
-  "dev": {
-    "theme": "Palette"
-  },
-  "sectors": {
-    "eyebrow": "Sectors we serve",
-    "title": "One method. Many industries.",
-    "intro": "Our approach doesn't change: understand the market, execute, then manage and measure. What changes is the industry.",
-    "more": "Learn more",
-    "items": {
-      "realEstate": {
-        "name": "Real estate",
-        "line": "Launch campaigns, project films and 3D visualization."
-      },
-      "food": {
-        "name": "Restaurants & cafés",
-        "line": "Daily content, shoots and campaigns that fill tables."
-      },
-      "retail": {
-        "name": "Retail & e-commerce",
-        "line": "Sales ads, online stores and seasonal offer management."
-      },
-      "health": {
-        "name": "Health & beauty",
-        "line": "Trust building, bookings and content that explains and reassures."
-      },
-      "education": {
-        "name": "Education & training",
-        "line": "Enrollment campaigns and landing pages that turn interest into applications."
-      },
-      "corporate": {
-        "name": "Corporate & services",
-        "line": "Identity, website and a digital presence worthy of the name."
-      }
-    }
+    "privacy": "We use your details only to contact you about your request."
   }
 }

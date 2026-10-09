@@ -1,36 +1,28 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { Link } from "@/components/ui/Link";
 import { site } from "@/content/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { LazyVideo } from "@/components/ui/LazyVideo";
-import { ArrowIcon, PlayIcon } from "@/components/ui/Icons";
+import { PlayIcon } from "@/components/ui/Icons";
 import { ScrollMedia } from "./ScrollMedia";
 
 const featureKeys = ["film", "viz", "splat", "launch"] as const;
 
-/** Home section. On the Real Estate page it runs in `standalone` mode: no intro heading (the page h1 has it) and no CTA. */
-export async function RealEstateSpotlight({ standalone = false }: { standalone?: boolean }) {
+/**
+ * Body of the Real Estate sector page (the page header carries the h1). Real estate is one sector
+ * among several: it has its own page, but no featured section on the home page.
+ */
+export async function RealEstateSpotlight() {
   const t = await getTranslations("realEstate");
   const reel = site.realEstateReel;
 
   return (
-    <section aria-labelledby={standalone ? undefined : "re-title"} aria-label={standalone ? t("eyebrow") : undefined} className="section relative overflow-hidden">
+    <section aria-label={t("eyebrow")} className="section relative overflow-hidden">
       {/* Cheap CSS glow behind the section */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(50%_40%_at_50%_0%,color-mix(in_oklab,var(--accent)_10%,transparent),transparent)]" />
 
       <div className="container-x">
-        {standalone ? (
-          <p className="lede mx-auto max-w-2xl text-center">{t("body")}</p>
-        ) : (
-          <Reveal className="mx-auto max-w-4xl text-center">
-            <p className="eyebrow justify-center">{t("eyebrow")}</p>
-            <h2 id="re-title" className="display mt-6 text-balance text-[clamp(2.75rem,8vw,6.5rem)]">
-              {t("title")}
-            </h2>
-            <p className="lede mx-auto mt-6 max-w-2xl">{t("body")}</p>
-          </Reveal>
-        )}
+        <p className="lede mx-auto max-w-2xl text-center">{t("body")}</p>
 
         <ScrollMedia className="mt-14 aspect-[4/5] rounded-[1.75rem] border border-line sm:aspect-[16/9] md:mt-20">
           <Image src={reel.poster} alt={t("mediaAlt")} fill quality={60} sizes="(min-width: 1408px) 1328px, 100vw" className="object-cover" />
@@ -54,15 +46,6 @@ export async function RealEstateSpotlight({ standalone = false }: { standalone?:
             </Reveal>
           ))}
         </ul>
-
-        {!standalone && (
-          <div className="mt-12 flex justify-center">
-            <Link href="/real-estate" className="btn btn-ghost">
-              {t("cta")}
-              <ArrowIcon className="btn-arrow" />
-            </Link>
-          </div>
-        )}
       </div>
     </section>
   );

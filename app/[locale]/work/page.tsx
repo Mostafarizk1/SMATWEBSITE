@@ -13,18 +13,18 @@ export async function generateMetadata({ params }: PageProps<"/[locale]/work">) 
 export default async function WorkPage({ params }: PageProps<"/[locale]/work">) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("pages");
+  const t = await getTranslations("pages.work");
   const views = await getWorkViews();
 
   return (
     <>
-      <PageHeader eyebrow={t("work.eyebrow")} title={t("work.title")} intro={t("work.intro")} />
+      <PageHeader eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")} />
       <section className="section">
         <div className="container-x">
           <WorkGrid {...views} />
         </div>
       </section>
-      <FinalCta title={t("ctaTitle")} />
+      <FinalCta />
     </>
   );
 }

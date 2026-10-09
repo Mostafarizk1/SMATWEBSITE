@@ -5,7 +5,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
 import { ArrowIcon, WhatsAppIcon } from "@/components/ui/Icons";
 
-export async function FinalCta({ title }: { title?: string }) {
+export async function FinalCta({ title, body }: { title?: string; body?: string }) {
   const t = await getTranslations("finalCta");
   const tc = await getTranslations("common");
 
@@ -19,7 +19,7 @@ export async function FinalCta({ title }: { title?: string }) {
         <h2 id="cta-title" className="display max-w-5xl text-balance text-[clamp(2.5rem,7.5vw,6rem)]">
           {title ?? t("title")}
         </h2>
-        <p className="lede mt-6 max-w-xl">{t("body")}</p>
+        <p className="lede mt-6 max-w-xl">{body ?? t("body")}</p>
         <div className="mt-10 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
           <Magnetic className="w-full sm:w-auto">
             <Link href="/contact" className="btn btn-primary w-full px-8 text-lg sm:w-auto">

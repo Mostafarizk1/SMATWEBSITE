@@ -24,8 +24,6 @@ export async function Method() {
     services: servicesByPillar(id).map((s) => ({ id: s.id, title: pick(s.title, locale), summary: pick(s.summary, locale) })),
   }));
 
-  const letters = ["s", "m", "a", "t"] as const;
-
   return (
     <section aria-labelledby="method-title" className="section">
       <div className="container-x">
@@ -34,17 +32,7 @@ export async function Method() {
         <MethodTabs pillars={data} label={t("tablistLabel")} locale={locale} />
 
         <Reveal className="mt-16 flex flex-col gap-8 border-t border-line pt-10 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="sr-only">{t("smatNote")}</p>
-            <ul className="grid grid-cols-2 gap-x-10 gap-y-4 sm:grid-cols-4" aria-hidden dir="ltr">
-              {letters.map((l) => (
-                <li key={l} className="flex items-baseline gap-3">
-                  <span className="font-display text-4xl font-bold text-accent-ink">{l.toUpperCase()}</span>
-                  <span className="text-sm text-muted">{t(`smatLetters.${l}`)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="font-display text-2xl font-semibold text-fg md:text-3xl">{t("bottomLine")}</p>
           <Link href="/contact" className="btn btn-ghost self-start md:self-auto">
             {t("cta")}
             <ArrowIcon className="btn-arrow" />

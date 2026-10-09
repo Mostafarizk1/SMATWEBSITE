@@ -17,10 +17,10 @@ export const site = {
 
   /** PLACEHOLDER: real handles pending. Empty href hides nothing, it just links to "#". */
   socials: [
-    { id: "instagram", label: "Instagram", href: "#" },
-    { id: "linkedin", label: "LinkedIn", href: "#" },
-    { id: "x", label: "X", href: "#" },
-    { id: "tiktok", label: "TikTok", href: "#" },
+    { id: "instagram" as const, label: "Instagram", href: "#" },
+    { id: "linkedin" as const, label: "LinkedIn", href: "#" },
+    { id: "x" as const, label: "X", href: "#" },
+    { id: "tiktok" as const, label: "TikTok", href: "#" },
   ],
 
   /**
